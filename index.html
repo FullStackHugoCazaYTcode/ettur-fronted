@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1E3A5F">
+    <title>ETTUR La Universidad</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/comprobante.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        
+        <!-- ===== LOGIN ===== -->
+        <div id="page-login" class="page active">
+            <div class="login-page">
+                <div class="login-brand">
+                    <div class="login-logo">🚐</div>
+                    <h1 class="login-name">ETTUR</h1>
+                    <p class="login-tagline">La Universidad</p>
+                </div>
+                
+                <div class="login-card">
+                    <h2 class="login-title">Iniciar Sesión</h2>
+                    <p class="login-subtitle">Ingresa tu DNI y placa</p>
+                    
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label class="form-label">DNI</label>
+                            <div class="input-group">
+                                <span class="input-icon">👤</span>
+                                <input type="text" id="login-dni" class="form-input" placeholder="12345678" maxlength="8" inputmode="numeric" required>
+                            </div>
+                            <span class="form-error" id="error-dni"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Placa</label>
+                            <div class="input-group">
+                                <span class="input-icon">🚗</span>
+                                <input type="text" id="login-placa" class="form-input" placeholder="ABC-123" maxlength="10" required>
+                            </div>
+                            <span class="form-error" id="error-placa"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-action btn-block btn-lg">Ingresar</button>
+                    </form>
+                </div>
+                
+                <div class="login-footer">
+                    <p>Sistema de Gestión de Pagos</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== ADMIN DASHBOARD ===== -->
+        <div id="page-admin-dashboard" class="page">
+            <header class="header">
+                <span class="header-title">Dashboard</span>
+                <div class="header-actions">
+                    <button class="header-btn" onclick="App.navigateTo('admin-configuracion')" title="Configuración">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </button>
+                    <button class="header-btn" data-action="logout" title="Cerrar sesión">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            
+            <main class="main-content">
+                <div class="mb-4">
+                    <h2 id="admin-welcome" style="font-size: 1.5rem; margin-bottom: 4px;">¡Hola!</h2>
+                    <p class="text-muted" id="admin-date"></p>
+                </div>
+                
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="stat-trabajadores">0</div>
+                        <div class="stat-label">Trabajadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="stat-recaudado">S/ 0</div>
+                        <div class="stat-label">Recaudado</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="stat-pendientes">0</div>
+                        <div class="stat-label">Por validar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-value" id="stat-morosos">0</div>
+                        <div class="stat-label">Morosos</div>
+                    </div>
+                </div>
+                
+                <div class="card card-highlight mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">🔍 Por Validar</h3>
+                        <span class="badge badge-warning" id="badge-pendientes">0</span>
+                    </div>
+                    <div class="card-body" id="admin-pagos-pendientes"></div>
+                </div>
+                
+                <h3 class="mb-3" style="font-size: 1rem;">Accesos Rápidos</h3>
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="App.navigateTo('admin-usuarios')">
+                        <div class="quick-btn-icon">👥</div>
+                        <div class="quick-btn-label">Usuarios</div>
+                    </button>
+                    <button class="quick-btn" onclick="App.navigateTo('admin-reportes')">
+                        <div class="quick-btn-icon">📊</div>
+                        <div class="quick-btn-label">Reportes</div>
+                    </button>
+                </div>
+            </main>
+            
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item active" data-page="admin-dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="#" class="nav-item" data-page="admin-usuarios">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Usuarios</span>
+                </a>
+                <a href="#" class="nav-item" data-page="admin-reportes">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Reportes</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- ===== ADMIN USUARIOS (antes Trabajadores) ===== -->
+        <div id="page-admin-usuarios" class="page">
+            <header class="header">
+                <button class="header-btn" onclick="App.navigateTo('admin-dashboard')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span class="header-title">Usuarios</span>
+                <button class="header-btn" id="btn-agregar-usuario" onclick="AdminUsuarios.showAddModal()" title="Agregar usuario">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </button>
+            </header>
+            
+            <main class="main-content">
+                <!-- Filtros por tipo -->
+                <div class="tabs-filter">
+                    <button class="tab-filter active" data-filter="todos">Todos</button>
+                    <button class="tab-filter" data-filter="trabajadores">🚐 Trabajadores</button>
+                    <button class="tab-filter" data-filter="coadmins">👔 Coadmins</button>
+                </div>
+                
+                <!-- Buscador -->
+                <div class="form-group mb-4">
+                    <div class="input-group">
+                        <span class="input-icon">🔍</span>
+                        <input type="text" id="search-usuarios" class="form-input" placeholder="Buscar por nombre, DNI o placa..." oninput="AdminUsuarios.buscar(this.value)">
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-grid mb-4" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-usuarios">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-trabajadores">0</div>
+                        <div class="stat-label">Trabajadores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-coadmins">0</div>
+                        <div class="stat-label">Coadmins</div>
+                    </div>
+                </div>
+                
+                <!-- Lista -->
+                <div id="lista-usuarios"></div>
+            </main>
+            
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item" data-page="admin-dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="#" class="nav-item active" data-page="admin-usuarios">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Usuarios</span>
+                </a>
+                <a href="#" class="nav-item" data-page="admin-reportes">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Reportes</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- ===== ADMIN REPORTES ===== -->
+<!-- REEMPLAZA la sección page-admin-reportes en index.html -->
+
+<div id="page-admin-reportes" class="page">
+    <header class="header">
+        <button class="header-btn" onclick="App.navigateTo('admin-dashboard')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <span class="header-title">Reportes</span>
+        <div style="width: 40px"></div>
+    </header>
+    
+    <main class="main-content">
+        <!-- Filtros -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <!-- Selector de período -->
+                <div class="form-group mb-3">
+                    <label class="form-label">Tipo de Reporte</label>
+                    <select id="reporte-periodo" class="form-input" onchange="AdminReportes.cambiarPeriodo(this.value)">
+                        <option value="semanal">📅 Semana Actual</option>
+                        <option value="mensual" selected>📆 Por Mes</option>
+                        <option value="anual">📊 Resumen Anual</option>
+                    </select>
+                </div>
+                
+                <!-- Filtro de mes (visible solo en mensual) -->
+                <div id="filtro-mes-container">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                
+                <!-- Filtro por fechas personalizadas (SIEMPRE VISIBLE) -->
+                <div id="filtro-fechas-container" style="border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px;">
+                    <label class="form-label">📆 O filtrar por fechas</label>
+                    <div class="date-filters" style="display: flex; gap: 8px; align-items: center;">
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <input type="date" id="fecha-inicio" class="form-input">
+                        </div>
+                        <span style="color: var(--gray-400);">→</span>
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <input type="date" id="fecha-fin" class="form-input">
+                        </div>
+                        <button class="btn btn-primary" onclick="AdminReportes.filtrarPorFechas()" style="padding: 10px 16px;">
+                            🔍
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats rápidos -->
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" id="reporte-recaudado">S/ 0</div>
+                <div class="stat-label">Recaudado</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-value" id="reporte-pagos">0</div>
+                <div class="stat-label">Pagos</div>
+            </div>
+        </div>
+        
+        <!-- Resumen dinámico -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">📊 Resumen</h3>
+            </div>
+            <div class="card-body" id="reporte-resumen">
+                <div class="text-center text-muted">
+                    <div class="spinner" style="margin: 20px auto;"></div>
+                    <p>Cargando reporte...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Morosos -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">⚠️ Morosos</h3>
+                <span class="badge badge-danger" id="badge-morosos">0</span>
+            </div>
+            <div class="card-body" id="lista-morosos" style="padding: 0; max-height: 300px; overflow-y: auto;"></div>
+        </div>
+    </main>
+    
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item" data-page="admin-dashboard">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Inicio</span>
+        </a>
+        <a href="#" class="nav-item" data-page="admin-usuarios">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Usuarios</span>
+        </a>
+        <a href="#" class="nav-item active" data-page="admin-reportes">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Reportes</span>
+        </a>
+    </nav>
+</div>
+        
+        <!-- ===== ADMIN CONFIGURACIÓN ===== -->
+        <div id="page-admin-configuracion" class="page">
+            <header class="header">
+                <button class="header-btn" onclick="App.navigateTo('admin-dashboard')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span class="header-title">Configuración</span>
+                <div style="width: 40px"></div>
+            </header>
+            
+            <main class="main-content">
+                <!-- Precios por tipo -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">💰 Precios por Tipo</h3>
+                        <button class="btn-icon" onclick="AdminConfiguracion.showTemporadasInfo()" title="Info temporadas">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 16v-4M12 8h.01"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body" id="lista-precios" style="padding: 0;">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </div>
+                
+                <!-- Configuración General -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">⚙️ Configuración General</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Nombre de la Empresa</label>
+                            <input type="text" id="config-empresa" class="form-input" placeholder="ETTUR La Universidad">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Número de Yape</label>
+                            <div class="input-group">
+                                <span class="input-icon">📱</span>
+                                <input type="text" id="config-yape" class="form-input" placeholder="956379525" maxlength="9">
+                            </div>
+                            <small class="text-muted">Este número se mostrará a los trabajadores para hacer el pago</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Precio Temporada Baja (Ene-Mar)</label>
+                            <div class="input-group">
+                                <span class="input-icon">S/</span>
+                                <input type="number" id="config-temporada" class="form-input" placeholder="5.00" step="0.50" min="0">
+                            </div>
+                            <small class="text-muted">Precio semanal durante enero, febrero y marzo</small>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block mt-4" onclick="AdminConfiguracion.guardarConfiguracion()">
+                            💾 Guardar Configuración
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AGREGAR DESPUÉS DE LA TARJETA DE CONFIGURACIÓN GENERAL -->
+
+<!-- Tarjeta de Temporada Baja -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h3 class="card-title">🌴 Temporada Baja</h3>
+        <button class="btn btn-sm btn-outline" onclick="AdminConfiguracion.showTemporadasInfo()">
+            ℹ️ Info
+        </button>
+    </div>
+    <div class="card-body">
+        <!-- Selección de meses -->
+        <div class="form-group mb-4">
+            <label class="form-label">Meses de temporada baja</label>
+            <p class="text-muted" style="font-size: 12px; margin-bottom: 8px;">
+                Selecciona los meses donde aplica el precio reducido
+            </p>
+            <div id="meses-temporada-baja" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                <!-- Se llena con JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Precios de temporada baja -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+                <label class="form-label">💵 Precio Semanal</label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-500);">S/</span>
+                    <input type="number" id="precio-semanal-baja" class="form-input" 
+                           style="padding-left: 36px;" step="0.50" min="0" value="5.00">
+                </div>
+                <small class="text-muted">Trabajadores semanales</small>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">💵 Precio Mensual</label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-500);">S/</span>
+                    <input type="number" id="precio-mensual-baja" class="form-input" 
+                           style="padding-left: 36px;" step="1" min="0" value="20.00">
+                </div>
+                <small class="text-muted">Trabajadores mensuales</small>
+            </div>
+        </div>
+        
+        <!-- Botón guardar -->
+        <button class="btn btn-primary w-full mt-4" onclick="AdminConfiguracion.guardarTemporadas()">
+            💾 Guardar Temporadas
+        </button>
+    </div>
+</div>
+                
+                <!-- Info del sistema -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">ℹ️ Información</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <span class="text-muted">Versión</span>
+                            <span>1.0.0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <span class="text-muted">API</span>
+                            <span>Railway</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span class="text-muted">Base de datos</span>
+                            <span>MySQL</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- ===== TRABAJADOR DASHBOARD ===== -->
+        <div id="page-trabajador-dashboard" class="page">
+            <header class="header">
+                <span class="header-title">Mi Dashboard</span>
+                <button class="header-btn" data-action="logout" title="Cerrar sesión">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                </button>
+            </header>
+            
+            <main class="main-content">
+                <div class="mb-4">
+                    <h2 id="trabajador-welcome" style="font-size: 1.5rem; margin-bottom: 4px;">¡Hola!</h2>
+                    <p class="text-muted" id="trabajador-placa"></p>
+                    <div id="trabajador-tipo" class="mt-2"></div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-muted">Total pagado</span>
+                            <span class="font-bold text-success" id="total-pagado" style="font-size: 1.5rem;">S/ 0</span>
+                        </div>
+                        <div style="height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
+                            <div id="progress-bar" style="height: 100%; background: var(--success); width: 0%; transition: width 0.5s;"></div>
+                        </div>
+                        <div class="flex justify-between mt-2" style="font-size: 12px; color: var(--gray-500);">
+                            <span id="periodos-pagados">0 semanas</span>
+                            <span id="periodos-total">de 52</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card card-warning mb-4" id="card-proximo-pago">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center mb-2">
+                            <span style="font-weight: 600;">⏳ Próximo Pago</span>
+                            <span class="badge badge-warning">Pendiente</span>
+                        </div>
+                        <div id="proximo-pago-info"></div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-action btn-block btn-lg mb-4" id="btn-pagar-ahora" onclick="App.navigateTo('trabajador-pagar')">
+                    💰 PAGAR AHORA
+                </button>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Últimos Pagos</h3>
+                    </div>
+                    <div class="card-body" id="ultimos-pagos" style="padding: 0;"></div>
+                </div>
+            </main>
+            
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item active" data-page="trabajador-dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="#" class="nav-item" data-page="trabajador-pagar">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-label">Pagar</span>
+                </a>
+                <a href="#" class="nav-item" data-page="trabajador-historial">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Historial</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- ===== TRABAJADOR PAGAR ===== -->
+<!-- REEMPLAZA la sección page-trabajador-pagar completa en index.html -->
+        <div id="page-trabajador-pagar" class="page">
+            <header class="header">
+                <button class="header-btn" onclick="App.navigateTo('trabajador-dashboard')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span class="header-title">Realizar Pago</span>
+                <div style="width: 40px"></div>
+            </header>
+            
+            <main class="main-content">
+                <!-- PASO 1: Seleccionar semana -->
+                <div id="step-select-semana">
+                    <p class="text-muted mb-3">Selecciona la semana a pagar:</p>
+                    <div id="semanas-list"></div>
+                </div>
+                
+                <!-- PASO 2: Confirmar pago y subir comprobante -->
+                <div id="step-confirm-payment" class="hidden">
+                    <!-- Monto a pagar -->
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <p class="text-muted mb-2">Monto a pagar</p>
+                            <div id="payment-amount" style="font-size: 2.5rem; font-weight: 700; color: var(--primary);">S/ 0.00</div>
+                            <p id="payment-detail" class="text-muted mt-2">Semana X</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Número de Yape -->
+                    <div class="card mb-4" style="background: #6B2D83; color: white;">
+                        <div class="card-body text-center">
+                            <p style="opacity: 0.9; font-size: 14px;">Número de Yape</p>
+                            <div id="yape-number" style="font-size: 1.75rem; font-weight: 700; letter-spacing: 2px; margin: 8px 0;">956379525</div>
+                            <button class="btn btn-sm" style="background: rgba(255,255,255,0.2); color: white;" onclick="Utils.copyToClipboard('956379525'); UI.toast('Número copiado', 'success')">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Código de referencia -->
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <p class="text-muted mb-2" style="font-size: 14px;">Código de referencia (pon en el mensaje)</p>
+                            <div id="reference-code" style="font-family: monospace; font-size: 1.25rem; background: #f5f5f5; padding: 12px; border-radius: 8px;">ETT-000</div>
+                            <button class="btn btn-outline btn-sm mt-3" onclick="Utils.copyToClipboard(document.getElementById('reference-code').textContent); UI.toast('Código copiado', 'success')">
+                                📋 Copiar código
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- ========================================= -->
+                    <!-- NUEVO: Subir comprobante de Yape -->
+                    <!-- ========================================= -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p style="font-weight: 600; margin-bottom: 12px; text-align: center;">📸 Sube tu comprobante de Yape</p>
+                            <p class="text-muted text-center mb-3" style="font-size: 13px;">Toma captura de pantalla después de realizar el pago</p>
+                            
+                            <!-- Input oculto para archivo -->
+                            <input type="file" id="input-comprobante" accept="image/*" capture="environment" style="display: none;">
+                            
+                            <!-- Botón para subir -->
+                            <div id="comprobante-placeholder" class="text-center">
+                                <button type="button" class="btn btn-outline btn-block" onclick="TrabajadorPagar.selectComprobante()" style="border: 2px dashed var(--gray-300); padding: 24px;">
+                                    <div style="font-size: 2rem; margin-bottom: 8px;">📷</div>
+                                    <span id="btn-comprobante-text">Subir comprobante</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Preview de la imagen -->
+                            <div id="comprobante-preview" class="hidden text-center" style="margin-top: 12px;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón confirmar (inicialmente deshabilitado) -->
+                    <button class="btn btn-action btn-block btn-lg btn-disabled" id="btn-confirm-payment" disabled>
+                        ✅ Confirmar Pago
+                    </button>
+                    <p class="text-muted text-center mt-2" style="font-size: 12px;">Debes subir el comprobante para continuar</p>
+                    
+                    <button class="btn btn-ghost btn-block mt-3" onclick="TrabajadorPagar.cancelar()">
+                        ← Volver
+                    </button>
+                </div>
+                
+                <!-- PASO 3: Éxito -->
+                <div id="step-success" class="hidden">
+                    <div class="empty-state">
+                        <div class="empty-icon">✅</div>
+                        <h3 class="empty-title">¡Pago Registrado!</h3>
+                        <p class="empty-text">Tu pago está pendiente de validación.<br>Te notificaremos cuando sea aprobado.</p>
+                        <button class="btn btn-primary btn-block mt-4" onclick="App.navigateTo('trabajador-dashboard')">Volver al inicio</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        
+        <!-- ===== TRABAJADOR HISTORIAL ===== -->
+        <div id="page-trabajador-historial" class="page">
+            <header class="header">
+                <button class="header-btn" onclick="App.navigateTo('trabajador-dashboard')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span class="header-title">Mi Historial</span>
+                <div style="width: 40px"></div>
+            </header>
+            
+            <main class="main-content">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-group mb-0">
+                            <label class="form-label">Año</label>
+                            <select id="historial-anio" class="form-input" onchange="TrabajadorHistorial.cambiarAnio(this.value)">
+                                <option value="2026">2026</option>
+                                <option value="2025" selected>2025</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="historial-total">S/ 0</div>
+                        <div class="stat-label">Total Pagado</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-value" id="historial-semanas">0</div>
+                        <div class="stat-label">Semanas</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Mis Pagos</h3>
+                    </div>
+                    <div class="card-body" id="historial-lista" style="padding: 0;"></div>
+                </div>
+            </main>
+            
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item" data-page="trabajador-dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="#" class="nav-item" data-page="trabajador-pagar">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-label">Pagar</span>
+                </a>
+                <a href="#" class="nav-item active" data-page="trabajador-historial">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Historial</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- ===== COADMIN DASHBOARD ===== -->
+        <div id="page-coadmin-dashboard" class="page">
+            <header class="header">
+                <span class="header-title">Coadministrador</span>
+                <button class="header-btn" data-action="logout" title="Cerrar sesión">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                </button>
+            </header>
+            
+            <main class="main-content">
+                <div class="mb-4">
+                    <h2 id="coadmin-welcome" style="font-size: 1.5rem;">¡Hola!</h2>
+                    <div id="coadmin-permisos"></div>
+                </div>
+                
+                <!-- Sección pagos pendientes (se oculta si no tiene permiso) -->
+                <div id="seccion-pagos-pendientes" class="card card-highlight mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">🔍 Por Validar</h3>
+                        <span class="badge badge-warning" id="coadmin-badge">0</span>
+                    </div>
+                    <div class="card-body" id="coadmin-pagos"></div>
+                </div>
+                
+                <!-- Accesos rápidos según permisos -->
+                <div class="quick-actions">
+                    <button class="quick-btn" id="btn-coadmin-usuarios" onclick="App.navigateTo('admin-usuarios')">
+                        <div class="quick-btn-icon">👥</div>
+                        <div class="quick-btn-label">Usuarios</div>
+                    </button>
+                    <button class="quick-btn" id="btn-coadmin-reportes" onclick="App.navigateTo('admin-reportes')">
+                        <div class="quick-btn-icon">📊</div>
+                        <div class="quick-btn-label">Reportes</div>
+                    </button>
+                </div>
+            </main>
+            
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item active" data-page="coadmin-dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="#" class="nav-item" data-page="admin-usuarios">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Usuarios</span>
+                </a>
+                <a href="#" class="nav-item" data-page="admin-reportes">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Reportes</span>
+                </a>
+            </nav>
+        </div>
+        
+    </div>
+
+    <!-- Loading -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p class="loading-text">Cargando...</p>
+    </div>
+    
+    <!-- Toast -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Modal -->
+    <div id="modal-container"></div>
+    
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/pages/admin-dashboard.js"></script>
+    <script src="js/pages/admin-usuarios.js"></script>
+    <script src="js/pages/admin-reportes.js"></script>
+    <script src="js/pages/admin-configuracion.js"></script>
+    <script src="js/pages/trabajador-dashboard.js"></script>
+    <script src="js/pages/trabajador-pagar.js"></script>
+    <script src="js/pages/trabajador-historial.js"></script>
+    <script src="js/pages/coadmin-dashboard.js"></script>
+</body>
+</html>
